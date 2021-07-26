@@ -8,7 +8,70 @@
     <title>Currency converter</title>
 </head>
 <body>
-    
+    <div class="wrapper">
+        <header>
+            <div class="header_content">
+                <div class="header_elements">
+                    <div>
+                        <img src="images/Asset 1@3x 1.png" alt="Company logotype">
+                    </div>
+                    <div class="menu_list">
+                        <p>БАНК</p>
+                        <p>БИЗНЕС</p>
+                        <p>ИНВЕСТИЦИИ</p>
+                        <p>СТРАХОВАНИЕ</p>
+                        <p>МОБАЙЛ</p>
+                        <p>ПУТЕШЕСТВИЯ</p>
+                        <p>РАЗВЛЕЧЕНИЯ</p>
+                    </div>
+                    <div class="enter">
+                        <p>ВОЙТИ</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="main_elements">
+                <h1>Конвертер валют онлайн</h1>
+                <div class="courses_windows">
+                    <div class="have_currency">
+                        <p>У меня есть</p>
+                        <div class="client_currency">
+                            <p id="clientRUB">RUB</p>
+                            <p>USD</p>
+                            <p>EUR</p>
+                            <p>GBR</p>
+                        </div>
+                        <div class="client_sum_window">
+                            <span class="designImput">
+                                <input id="clientValue" type="number" value="1">
+                                <span onclick="this.previousElementSibling.stepUp()"></span>
+                                <span onclick="this.previousElementSibling.previousElementSibling.stepDown()"></span>
+                            </span>
+                            <p id="clientCrossCourse"></p>
+                        </div>
+                    </div>
+                    <div class="want_currency">
+                        <p>Хочу приобрести</p>
+                        <div class="bank_currency">
+                            <p>RUB</p>
+                            <p id="bankUSD">USD</p>
+                            <p>EUR</p>
+                            <p>GBR</p>
+                        </div>
+                        <div class="bank_sum_window">
+                            <span class="designImput">
+                                <input id="bankValue" type="number" value="">
+                                <span onclick="this.previousElementSibling.stepUp()"></span>
+                                <span onclick="this.previousElementSibling.previousElementSibling.stepDown()"></span>
+                            </span>
+                            <p id="bankCrossCourse"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

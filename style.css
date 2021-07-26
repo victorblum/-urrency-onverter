@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.wrapper {
+    min-width: 1152px;
+}
+
+header {
+    background: #F5F5F6;
+}
+
+.header_content {
+    height: 50px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.header_elements {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: #959BA4;
+    width: 950px;
+    margin: auto;
+}
+
+.header_elements img:hover {
+    cursor: pointer;
+}
+
+.menu_list {
+    display: flex;
+    justify-content: space-between;
+    width: 630px;
+}
+
+.menu_list :first-child {
+    color: #000000;
+}
+
+.menu_list p:hover {
+    cursor: pointer;
+}
+
+.enter {
+    background: #FFFFFF;
+    border-radius: 4px;
+    color: #000000;
+    width: 58px;
+    height: 33px;
+    text-align: center;
+}
+
+.enter:hover {
+    cursor: pointer;
+}
+
+.main_elements {
+    margin: auto;
+    width: 641px;
+    margin-top: 56px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+.courses_windows {
+    display: flex;
+    justify-content: space-between;
+}
+
+.have_currency, .want_currency {
+    width: 259px;
+    font-size: 12px;
+    color: #9F9F9F;
+}
+
+.have_currency p:first-child, .want_currency p:first-child {
+    margin-bottom: 0;
+}
+
+.client_currency, .bank_currency {
+    display: flex;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.client_currency p, .bank_currency p {
+    border: 1px solid #E5E5E5;
+    height: 28px;
+    width: 62.56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+
+.client_currency p:hover {
+    background: #833AE0;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: 1px solid #833AE0;
+} 
+
+.bank_currency p:hover {
+    background: #833AE0;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: 1px solid #833AE0;
+} 
+
+.client_currency :first-child, 
+.bank_currency :first-child {
+    border-radius: 3px 0px 0px 3px;
+}
+
+.client_currency :last-child, 
+.bank_currency :last-child {
+    border-radius: 0px 3px 3px 0px;
+}
+
+.client_sum_window, .bank_sum_window {
+    border: 1px solid #E5E5E5;
+    box-sizing: border-box;
+    border-radius: 3px;
+    min-height: 102px;
+}
+
+input {
+    font-size: 36px;
+    width: 222px;
+    margin-left: 14px;
+    margin-top: 11px;
+    border: 0;
+    font-family: 'Roboto';
+    font-weight: bold;
+    outline: none;
+    padding-right: 0;
+}
+
+input::-webkit-inner-spin-button { 
+    opacity: 1;
+}
+
+.client_sum_window p, .bank_sum_window p {
+    margin-left: 16px;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.designImput {
+    position: relative;
+    display: inline-block;
+}
+.designImput input {
+    font-size: 36px;
+    -moz-appearance: textfield;
+}
+.designImput input::-webkit-inner-spin-button { 
+    display: none;
+}
+.designImput span {
+    position: absolute;
+}
+
+@supports (clip-path: polygon(50% 30%, 10% 90%, 90% 90%)) {
+.designImput input {
+    margin-right: 30px;
+}
+.designImput span {
+    right: 25px;
+    width: 25px;
+    height: 50%;
+    background: #E5E5E5;
+    cursor: pointer;
+}
+.designImput span:hover {
+    background: #833AE0;;
+}
+.designImput span:nth-of-type(1) {
+    top: 0;
+    clip-path: polygon(50% 30%, 10% 90%, 90% 90%);
+}
+.designImput span:nth-of-type(2) {
+    bottom: 0;
+    clip-path: polygon(50% 70%, 10% 10%, 90% 10%);
+}}
