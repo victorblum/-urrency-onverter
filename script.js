@@ -1,6 +1,9 @@
 //Конвертация запятой
-//При смене суммы автопересчёт
-//Модальное окно и футер
+//Уменьшить количество кода
+
+//Стрелки нужны?
+//Модальное окно и footer
+//Подсвечивать изменение курса валют
 
 const clientCurrency = document.getElementsByClassName('buttonC');
 const bankCurrency = document.getElementsByClassName('buttonB');
@@ -12,21 +15,6 @@ const listUSD = document.getElementById('bankUSD');
 
 const clientInput = document.getElementById('clientValue');
 const bankInput = document.getElementById('bankValue');
-
-//Input settings
-function twoSymbols(e) {
-    if (e.value.length > 9) {
-        e.value = e.value.slice(0,9);
-    }
-    if (e.value.indexOf(".") != '-1') {
-        e.value=e.value.substring(0, e.value.indexOf(".") + 5);
-    }
-}
-bankInput.oninput = function () {
-    if (this.value.length > 9) {
-        this.value = this.value.slice(0,9); 
-    }
-}
 
 //Initial values
 window.addEventListener('load', () => {
@@ -46,7 +34,7 @@ window.addEventListener('load', () => {
     bank();
 })
 
-//Data request and currency conversion
+//Currency selection
 let clientCurСhoice = '';
 let bankCurСhoice = '';
 
@@ -73,8 +61,28 @@ function bank () {
     }
 }
 
+//Data request and currency conversion
+clientInput.oninput = function() {
+    if (this.value.length > 10) {
+        this.value = this.value.slice(0,10);
+    }
+    conversion();
+}
+bankInput.oninput = function() {
+    if (this.value.length > 10) {
+        this.value = this.value.slice(0,10); 
+    }
+    conversion2();
+}
+
 function conversion() {
     //Client currency RUB
+    function innerDataRUB(data) {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
+        bankInput.value = (clientInput.value/data.rates.RUB).toFixed(2);
+        const result = +bankInput.value;
+    }
     if(clientCurСhoice === 'RUB' && bankCurСhoice === 'RUB') {
         clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
         bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
@@ -82,12 +90,7 @@ function conversion() {
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'USD') {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
     .then(res => res.json())
-    .then(data => {
-        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
-        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
-        bankInput.value = (clientInput.value/data.rates.RUB).toFixed(2);
-        const result = +bankInput.value;
-    })
+    .then(data => innerDataRUB(data))
     .catch((err) => {
         alert("API недоступен или ошибка при выполнении запроса");
         console.log(err);
@@ -95,12 +98,7 @@ function conversion() {
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=RUB')
     .then(res => res.json())
-    .then(data => {
-        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
-        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
-        bankInput.value = (clientInput.value/data.rates.RUB).toFixed(2);
-        const result = +bankInput.value;
-    })
+    .then(data => innerDataRUB(data))
     .catch((err) => {
         alert("API недоступен или ошибка при выполнении запроса");
         console.log(err);
@@ -108,12 +106,7 @@ function conversion() {
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=RUB')
     .then(res => res.json())
-    .then(data => {
-        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
-        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
-        bankInput.value = (clientInput.value/data.rates.RUB).toFixed(2);
-        const result = +bankInput.value;
-    })
+    .then(data => innerDataRUB(data))
     .catch((err) => {
         alert("API недоступен или ошибка при выполнении запроса");
         console.log(err);
@@ -248,6 +241,189 @@ function conversion() {
         bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
         bankInput.value = (clientInput.value/data.rates.GBP).toFixed(2);
         const result = +bankInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    }
+}
+
+function conversion2() {
+    //Client currency RUB
+    if(clientCurСhoice === 'RUB' && bankCurСhoice === 'RUB') {
+        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        clientInput.value = bankInput.value;
+    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'USD') {
+    fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.RUB).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'EUR') {
+    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=RUB')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.RUB).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'GBP') {
+    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=RUB')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.RUB).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+
+    //Client currency USD
+    } else if (clientCurСhoice === 'USD' && bankCurСhoice === 'USD') {
+        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        clientInput.value = bankInput.value;
+    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'RUB') {
+    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=USD')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.USD).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.USD).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.USD).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'EUR') {
+    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=USD')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.USD).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.USD).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.USD).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'GBP') {
+    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=USD')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.USD).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.USD).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.USD).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+
+    //Client currency EUR
+    } else if (clientCurСhoice === 'EUR' && bankCurСhoice === 'EUR') {
+        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        clientInput.value = bankInput.value;
+    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'RUB') {
+    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=EUR')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.EUR).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.EUR).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.EUR).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'USD') {
+    fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.EUR).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.EUR).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.EUR).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'GBP') {
+    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=EUR')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.EUR).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.EUR).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.EUR).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+
+    //Client currency GBP
+    } else if (clientCurСhoice === 'GBP' && bankCurСhoice === 'GBP') {
+        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+        clientInput.value = bankInput.value;
+    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'RUB') {
+    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=GBP')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.GBP).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.GBP).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'USD') {
+    fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.GBP).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.GBP).toFixed(2);
+        const result = +clientInput.value;
+    })
+    .catch((err) => {
+        alert("API недоступен или ошибка при выполнении запроса");
+        console.log(err);
+    })
+    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'EUR') {
+    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=GBP')
+    .then(res => res.json())
+    .then(data => {
+        clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.GBP).toFixed(2)} ${bankCurСhoice}`;
+        bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
+        clientInput.value = (bankInput.value*data.rates.GBP).toFixed(2);
+        const result = +clientInput.value;
     })
     .catch((err) => {
         alert("API недоступен или ошибка при выполнении запроса");

@@ -151,8 +151,10 @@ input {
     padding-right: 0;
 }
 
-input::-webkit-inner-spin-button { 
-    opacity: 1;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .client_sum_window p, .bank_sum_window p {
@@ -161,7 +163,7 @@ input::-webkit-inner-spin-button {
     margin-bottom: 0;
 }
 
-.designImput {
+/* .designImput {
     position: relative;
     display: inline-block;
 }
@@ -197,12 +199,9 @@ input::-webkit-inner-spin-button {
 .designImput span:nth-of-type(2) {
     bottom: 0;
     clip-path: polygon(50% 70%, 10% 10%, 90% 10%);
-}}
+}} */
 
-
-
-
-.modal {
+/* .modal {
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -218,17 +217,17 @@ input::-webkit-inner-spin-button {
     align-items: flex-start;
     overflow-y: scroll;
     padding: 60px 15px;
-  }
+}
 
-  .modal_active {
+.modal_active {
     position: fixed;
     top: 0;
     visibility: visible;
     opacity: 1;
     transition: .3s;
-  }
+}
    
-  .modal_content {
+.modal_content {
     width: 100%;
     max-width: 500px;
     padding: 50px;
@@ -236,9 +235,9 @@ input::-webkit-inner-spin-button {
     border-radius: 3px;
     position: relative;
     box-shadow: 0 5px 15px black;
-  }
+}
    
-  .modal_close-button {
+.modal_close-button {
     background: #ff0000;
     height: 30px;
     width: 30px;
@@ -253,20 +252,20 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
     transition: .3s;
     outline: none;
-  }
+}
    
-  .modal_close-button:hover {
+.modal_close-button:hover {
     transition: .3s;
     transform: rotate(180deg);
-  }
+}
    
-  .modal_title {
+.modal_title {
     font-size: 1.8rem;
     text-transform: uppercase;
     margin: 0 0 15px;
     color: #ff0000;
-  }
+}
    
-  .modal_description {
+.modal_description {
     font-size: 1.125rem;
-  }
+} */
