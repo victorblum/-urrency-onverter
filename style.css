@@ -3,10 +3,13 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
+    height: 100%;
 }
 
 .wrapper {
     min-width: 1152px;
+    position: relative;
+  min-height: 100%;
 }
 
 header {
@@ -61,6 +64,10 @@ header {
     cursor: pointer;
 }
 
+main {
+    padding-bottom: 90px;
+}
+
 .main_elements {
     margin: auto;
     width: 641px;
@@ -92,7 +99,7 @@ h1 {
     box-sizing: border-box;
 }
 
-.client_currency p, .bank_currency p {
+.buttonC, .buttonB {
     border: 1px solid #E5E5E5;
     height: 28px;
     width: 62.56px;
@@ -101,14 +108,14 @@ h1 {
     justify-content: center;
 } 
 
-.client_currency p:hover {
+.activeC, .buttonC:hover {
     background: #833AE0;
     color: #FFFFFF;
     cursor: pointer;
     border: 1px solid #833AE0;
 } 
 
-.bank_currency p:hover {
+.activeB, .buttonB:hover {
     background: #833AE0;
     color: #FFFFFF;
     cursor: pointer;
@@ -191,3 +198,75 @@ input::-webkit-inner-spin-button {
     bottom: 0;
     clip-path: polygon(50% 70%, 10% 10%, 90% 10%);
 }}
+
+
+
+
+.modal {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
+    top: -1000px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: scroll;
+    padding: 60px 15px;
+  }
+
+  .modal_active {
+    position: fixed;
+    top: 0;
+    visibility: visible;
+    opacity: 1;
+    transition: .3s;
+  }
+   
+  .modal_content {
+    width: 100%;
+    max-width: 500px;
+    padding: 50px;
+    background: #f9f9f9;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 0 5px 15px black;
+  }
+   
+  .modal_close-button {
+    background: #ff0000;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: none;
+    cursor: pointer;
+    transition: .3s;
+    outline: none;
+  }
+   
+  .modal_close-button:hover {
+    transition: .3s;
+    transform: rotate(180deg);
+  }
+   
+  .modal_title {
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    margin: 0 0 15px;
+    color: #ff0000;
+  }
+   
+  .modal_description {
+    font-size: 1.125rem;
+  }

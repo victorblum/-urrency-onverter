@@ -37,14 +37,14 @@
                     <div class="have_currency">
                         <p>У меня есть</p>
                         <div class="client_currency">
-                            <p id="clientRUB">RUB</p>
-                            <p>USD</p>
-                            <p>EUR</p>
-                            <p>GBR</p>
+                            <p class="buttonC activeC">RUB</p>
+                            <p class="buttonC">USD</p>
+                            <p class="buttonC">EUR</p>
+                            <p class="buttonC">GBP</p>
                         </div>
                         <div class="client_sum_window">
                             <span class="designImput">
-                                <input id="clientValue" type="number" value="1">
+                                <input id="clientValue" type="number" value="1" oninput="twoSymbols(this)" step="0.01"/>
                                 <span onclick="this.previousElementSibling.stepUp()"></span>
                                 <span onclick="this.previousElementSibling.previousElementSibling.stepDown()"></span>
                             </span>
@@ -54,10 +54,10 @@
                     <div class="want_currency">
                         <p>Хочу приобрести</p>
                         <div class="bank_currency">
-                            <p>RUB</p>
-                            <p id="bankUSD">USD</p>
-                            <p>EUR</p>
-                            <p>GBR</p>
+                            <p class="buttonB">RUB</p>
+                            <p class="buttonB activeB">USD</p>
+                            <p class="buttonB">EUR</p>
+                            <p class="buttonB">GBP</p>
                         </div>
                         <div class="bank_sum_window">
                             <span class="designImput">
@@ -69,8 +69,22 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal">
+                    <div class="modal_content">
+                        <button class="modal_close-button"><img src="images/xbutton_114526.svg" width="18" alt="Close button"></button>
+                        <h1 class="modal_title">Loading error</h1>
+                        <p class="modal_descruption">Sorry, API unavailable or error while executing request</p><hr>
+                        <p class="modal_descruption">Try submitting your request again..</p>
+                    </div>
+                 </div>
             </div>
         </main>
+        <!-- <footer>
+            <div class="footer_content">
+                <div class="elements_foot">
+                </div>
+            </div>
+        </footer>  -->
     </div>
     <script src="script.js"></script>
 </body>
