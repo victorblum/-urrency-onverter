@@ -37,30 +37,35 @@ header {
     cursor: pointer;
 }
 
-.menu_list {
+.menu_list ul {
     display: flex;
     justify-content: space-between;
     width: 630px;
+    list-style-type: none;
+    font-weight: 500;
 }
 
-.menu_list :first-child {
+.menu_list ul li:first-child {
     color: #000000;
 }
 
-.menu_list p:hover {
+.menu_list ul li:hover {
     cursor: pointer;
 }
 
-.enter {
+#enter {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
     background: #FFFFFF;
     border-radius: 4px;
     color: #000000;
     width: 58px;
     height: 33px;
-    text-align: center;
+    font-size: 11px;
+    border: 1px solid #FFFFFF;
 }
 
-.enter:hover {
+#enter:hover {
     cursor: pointer;
 }
 
@@ -84,7 +89,7 @@ h1 {
 }
 
 .have_currency, .want_currency {
-    width: 259px;
+    width: 40%;
     font-size: 12px;
     color: #9F9F9F;
 }
@@ -96,10 +101,9 @@ h1 {
 .client_currency, .bank_currency {
     display: flex;
     justify-content: flex-start;
-    box-sizing: border-box;
 }
 
-.buttonC, .buttonB {
+.buttonClientCur, .buttonBankCur {
     border: 1px solid #E5E5E5;
     height: 28px;
     width: 62.56px;
@@ -108,14 +112,14 @@ h1 {
     justify-content: center;
 } 
 
-.activeC, .buttonC:hover {
+.activeClientCur, .buttonClientCur:hover {
     background: #833AE0;
     color: #FFFFFF;
     cursor: pointer;
     border: 1px solid #833AE0;
 } 
 
-.activeB, .buttonB:hover {
+.activeBankCur, .buttonBankCur:hover {
     background: #833AE0;
     color: #FFFFFF;
     cursor: pointer;
