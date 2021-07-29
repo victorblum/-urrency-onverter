@@ -205,7 +205,7 @@ input::-webkit-inner-spin-button {
     clip-path: polygon(50% 70%, 10% 10%, 90% 10%);
 }} */
 
-/* .modal {
+.modal {
     position: absolute;
     visibility: hidden;
     opacity: 0;
@@ -272,4 +272,4 @@ input::-webkit-inner-spin-button {
    
 .modal_description {
     font-size: 1.125rem;
-} */
+}

@@ -1,4 +1,5 @@
-//Конвертация запятой
+//Конвертация запятой/менять type text
+//Смена валют
 
 //Стрелки нужны?
 //Модальное окно и footer
@@ -14,6 +15,9 @@ const listUSD = document.getElementById('bankUSD');
 
 const clientInput = document.getElementById('clientValue');
 const bankInput = document.getElementById('bankValue');
+
+const modalWindow = document.querySelector('.modal');
+const modalWindowClose = document.querySelector('.modal_close-button');
 
 //Initial values
 window.addEventListener('load', () => {
@@ -88,26 +92,17 @@ function conversionClientToBank() {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
     .then(res => res.json())
     .then(data => clientToBankRUB(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=RUB')
     .then(res => res.json())
     .then(data => clientToBankRUB(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=RUB')
     .then(res => res.json())
     .then(data => clientToBankRUB(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
 
     //Client currency USD
     } else if (clientCurСhoice === 'USD' && bankCurСhoice === 'USD') {
@@ -118,26 +113,17 @@ function conversionClientToBank() {
     fetch('https://api.exchangerate.host/latest?base=RUB&symbols=USD')
     .then(res => res.json())
     .then(data => clientToBankUSD(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=USD')
     .then(res => res.json())
     .then(data => clientToBankUSD(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=USD')
     .then(res => res.json())
     .then(data => clientToBankUSD(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
 
     //Client currency EUR
     } else if (clientCurСhoice === 'EUR' && bankCurСhoice === 'EUR') {
@@ -148,26 +134,17 @@ function conversionClientToBank() {
     fetch('https://api.exchangerate.host/latest?base=RUB&symbols=EUR')
     .then(res => res.json())
     .then(data => clientToBankEUR(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'USD') {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR')
     .then(res => res.json())
     .then(data => clientToBankEUR(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=EUR')
     .then(res => res.json())
     .then(data => clientToBankEUR(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
 
     //Client currency GBP
     } else if (clientCurСhoice === 'GBP' && bankCurСhoice === 'GBP') {
@@ -178,26 +155,17 @@ function conversionClientToBank() {
     fetch('https://api.exchangerate.host/latest?base=RUB&symbols=GBP')
     .then(res => res.json())
     .then(data => clientToBankGBP(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'USD') {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
     .then(res => res.json())
     .then(data => clientToBankGBP(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=GBP')
     .then(res => res.json())
     .then(data => clientToBankGBP(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     }
 }
 function clientToBankRUB(data) {
@@ -235,26 +203,17 @@ function conversionBankToClient() {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
     .then(res => res.json())
     .then(data => bankToClientRUB(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=RUB')
     .then(res => res.json())
     .then(data => bankToClientRUB(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=RUB')
     .then(res => res.json())
     .then(data => bankToClientRUB(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
 
     //Client currency USD
     } else if (clientCurСhoice === 'USD' && bankCurСhoice === 'USD') {
@@ -265,26 +224,17 @@ function conversionBankToClient() {
     fetch('https://api.exchangerate.host/latest?base=RUB&symbols=USD')
     .then(res => res.json())
     .then(data => bankToClientUSD(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=USD')
     .then(res => res.json())
     .then(data => bankToClientUSD(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=USD')
     .then(res => res.json())
     .then(data => bankToClientUSD(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
 
     //Client currency EUR
     } else if (clientCurСhoice === 'EUR' && bankCurСhoice === 'EUR') {
@@ -295,26 +245,17 @@ function conversionBankToClient() {
     fetch('https://api.exchangerate.host/latest?base=RUB&symbols=EUR')
     .then(res => res.json())
     .then(data => bankToClientEUR(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'USD') {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR')
     .then(res => res.json())
     .then(data => bankToClientEUR(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'GBP') {
     fetch('https://api.exchangerate.host/latest?base=GBP&symbols=EUR')
     .then(res => res.json())
     .then(data => bankToClientEUR(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
 
     //Client currency GBP
     } else if (clientCurСhoice === 'GBP' && bankCurСhoice === 'GBP') {
@@ -325,26 +266,17 @@ function conversionBankToClient() {
     fetch('https://api.exchangerate.host/latest?base=RUB&symbols=GBP')
     .then(res => res.json())
     .then(data => bankToClientGBP(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'USD') {
     fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
     .then(res => res.json())
     .then(data => bankToClientGBP(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'EUR') {
     fetch('https://api.exchangerate.host/latest?base=EUR&symbols=GBP')
     .then(res => res.json())
     .then(data => bankToClientGBP(data))
-    .catch((err) => {
-        alert("API недоступен или ошибка при выполнении запроса");
-        console.log(err);
-    })
+    .catch((err) => errorWindow(err))
     }
 }
 function bankToClientRUB(data) {
@@ -370,4 +302,12 @@ function bankToClientGBP(data) {
     bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
     clientInput.value = (bankInput.value*data.rates.GBP).toFixed(2);
     const result = +clientInput.value;
+}
+
+function errorWindow () {
+    modalWindow.classList.add('modal_active');
+    modalWindowClose.onclick = function () {
+        modalWindow.classList.remove('modal_active');
+    };
+    console.log(err);
 }
