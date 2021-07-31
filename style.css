@@ -94,22 +94,22 @@ h1 {
     color: #9F9F9F;
 }
 
-.have_currency p:first-child, .want_currency p:first-child {
-    margin-bottom: 0;
-}
-
 .client_currency, .bank_currency {
     display: flex;
     justify-content: flex-start;
 }
 
 .buttonClientCur, .buttonBankCur {
+    color: #C6C6C6;
     border: 1px solid #E5E5E5;
     height: 28px;
-    width: 62.56px;
+    width: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
 } 
 
 .activeClientCur, .buttonClientCur:hover {
@@ -141,6 +141,7 @@ h1 {
     box-sizing: border-box;
     border-radius: 3px;
     min-height: 102px;
+    margin-top: 20px;
 }
 
 input {

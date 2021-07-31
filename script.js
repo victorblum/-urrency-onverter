@@ -1,12 +1,15 @@
 //Конвертация запятой/менять type text
 //Смена валют
+//Функция в функции
 
 //Стрелки нужны?
-//Модальное окно и footer
+//Footer
 //Подсвечивать изменение курса валют
 
 const clientCurrency = document.getElementsByClassName('buttonClientCur');
 const bankCurrency = document.getElementsByClassName('buttonBankCur');
+const activeClient = document.querySelector(".activeClientCur");
+const activeBank = document.querySelector(".activeBankCur");
 
 const clientCourse = document.getElementById('clientCrossCourse');
 const bankCourse = document.getElementById('bankCrossCourse');
@@ -21,44 +24,48 @@ const modalWindowClose = document.querySelector('.modal_close-button');
 
 //Initial values
 window.addEventListener('load', () => {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
+    let fromCurClient = activeBank.textContent;
+    let toCurClient = activeClient.textContent;
+    fetch(`https://api.exchangerate.host/latest?base=${fromCurClient}&symbols=${toCurClient}`)
     .then(res => res.json())
     .then(data => {
-    clientCourse.innerText = `${clientInput.value} RUB = ${(clientInput.value / data.rates.RUB).toFixed(2)} USD`;
-    bankInput.value = (clientInput.value/data.rates.RUB).toFixed(2);
+    clientCourse.innerText = `${clientInput.value} ${toCurClient} = ${(clientInput.value / data.rates[toCurClient]).toFixed(2)} ${fromCurClient}`;
+    bankInput.value = (clientInput.value/data.rates[toCurClient]).toFixed(2);
     const result = +bankInput.value;
 });
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=USD')
+    let fromCurBank = activeClient.textContent;
+    let toCurBank = activeBank.textContent;
+    fetch(`https://api.exchangerate.host/latest?base=${fromCurBank}&symbols=${toCurBank}`)
     .then(res => res.json())
     .then(data => {
-    bankCourse.innerText = `${clientInput.value} USD = ${(1 / data.rates.USD).toFixed(2)} RUB`;
+    bankCourse.innerText = `${clientInput.value} ${toCurBank} = ${(1 / data.rates[toCurBank]).toFixed(2)} ${fromCurBank}`;
     })
     client();
     bank();
 })
 
 //Currency selection
-let clientCurСhoice = '';
-let bankCurСhoice = '';
+let clientCurСhoice = activeClient.textContent;
+let bankCurСhoice = activeBank.textContent;
 
 function client () {
     for (let i = 0; i < clientCurrency.length; i++) {
+        const activeClient = document.getElementsByClassName("activeClientCur");
         clientCurrency[i].addEventListener("click", function() {
-            const current = document.getElementsByClassName("activeClientCur");
-            current[0].className = current[0].className.replace(" activeClientCur", "");
+            activeClient[0].className = activeClient[0].className.replace(" activeClientCur", "");
             this.className += " activeClientCur";
-            clientCurСhoice = current[0].textContent;
+            clientCurСhoice = activeClient[0].getAttribute("data-currency");
             conversionClientToBank();
         });
     }
 }
 function bank () {
     for (let i = 0; i < bankCurrency.length; i++) {
+        const activeBank = document.getElementsByClassName("activeBankCur");
         bankCurrency[i].addEventListener("click", function() {
-            const current = document.getElementsByClassName("activeBankCur");
-            current[0].className = current[0].className.replace(" activeBankCur", "");
+            activeBank[0].className = activeBank[0].className.replace(" activeBankCur", "");
             this.className += " activeBankCur";
-            bankCurСhoice = current[0].textContent;
+            bankCurСhoice = activeBank[0].getAttribute("data-currency");
             conversionClientToBank();
         });
     }
@@ -83,228 +90,49 @@ bankInput.oninput = function() {
 }
 
 function conversionClientToBank() {
-    //Client currency RUB
-    if(clientCurСhoice === 'RUB' && bankCurСhoice === 'RUB') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankInput.value = clientInput.value;
-    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'USD') {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
-    .then(res => res.json())
-    .then(data => clientToBankRUB(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'EUR') {
-    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=RUB')
-    .then(res => res.json())
-    .then(data => clientToBankRUB(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'GBP') {
-    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=RUB')
-    .then(res => res.json())
-    .then(data => clientToBankRUB(data))
-    .catch((err) => errorWindow(err))
-
-    //Client currency USD
-    } else if (clientCurСhoice === 'USD' && bankCurСhoice === 'USD') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankInput.value = clientInput.value;
-    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'RUB') {
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=USD')
-    .then(res => res.json())
-    .then(data => clientToBankUSD(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'EUR') {
-    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=USD')
-    .then(res => res.json())
-    .then(data => clientToBankUSD(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'GBP') {
-    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=USD')
-    .then(res => res.json())
-    .then(data => clientToBankUSD(data))
-    .catch((err) => errorWindow(err))
-
-    //Client currency EUR
-    } else if (clientCurСhoice === 'EUR' && bankCurСhoice === 'EUR') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankInput.value = clientInput.value;
-    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'RUB') {
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=EUR')
-    .then(res => res.json())
-    .then(data => clientToBankEUR(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'USD') {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR')
-    .then(res => res.json())
-    .then(data => clientToBankEUR(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'GBP') {
-    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=EUR')
-    .then(res => res.json())
-    .then(data => clientToBankEUR(data))
-    .catch((err) => errorWindow(err))
-
-    //Client currency GBP
-    } else if (clientCurСhoice === 'GBP' && bankCurСhoice === 'GBP') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankInput.value = clientInput.value;
-    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'RUB') {
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=GBP')
-    .then(res => res.json())
-    .then(data => clientToBankGBP(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'USD') {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
-    .then(res => res.json())
-    .then(data => clientToBankGBP(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'EUR') {
-    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=GBP')
-    .then(res => res.json())
-    .then(data => clientToBankGBP(data))
-    .catch((err) => errorWindow(err))
-    }
-}
-function clientToBankRUB(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
-    bankInput.value = (clientInput.value/data.rates.RUB).toFixed(2);
-    const result = +bankInput.value;
-}
-function clientToBankUSD(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.USD).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.USD).toFixed(2)} ${clientCurСhoice}`;
-    bankInput.value = (clientInput.value/data.rates.USD).toFixed(2);
-    const result = +bankInput.value;
-}
-function clientToBankEUR(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.EUR).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.EUR).toFixed(2)} ${clientCurСhoice}`;
-    bankInput.value = (clientInput.value/data.rates.EUR).toFixed(2);
-    const result = +bankInput.value;
-}
-function clientToBankGBP(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.GBP).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
-    bankInput.value = (clientInput.value/data.rates.GBP).toFixed(2);
-    const result = +bankInput.value;
+        if(clientCurСhoice === bankCurСhoice) {
+            clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+            bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
+            bankInput.value = clientInput.value;
+            return
+        } fetch(`https://api.exchangerate.host/latest?base=${bankCurСhoice}&symbols=${clientCurСhoice}`)
+        .then(res => res.json())
+        .then(data => {
+            result = data.rates[clientCurСhoice];
+            clientToBank(result);
+        })
+        .catch((err) => errorWindow(err))
+}   
+function clientToBank(result) {
+    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / result).toFixed(2)} ${bankCurСhoice}`;
+    bankCourse.innerText = `1 ${bankCurСhoice} = ${result.toFixed(2)} ${clientCurСhoice}`;
+    bankInput.value = (clientInput.value / result).toFixed(2);
+    const res = +bankInput.value;
 }
 
 function conversionBankToClient() {
-    //Client currency RUB
-    if(clientCurСhoice === 'RUB' && bankCurСhoice === 'RUB') {
+    if(bankCurСhoice === clientCurСhoice) {
         clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
         bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
         clientInput.value = bankInput.value;
-    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'USD') {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=RUB')
-    .then(res => res.json())
-    .then(data => bankToClientRUB(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'EUR') {
-    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=RUB')
-    .then(res => res.json())
-    .then(data => bankToClientRUB(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'RUB' && bankCurСhoice === 'GBP') {
-    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=RUB')
-    .then(res => res.json())
-    .then(data => bankToClientRUB(data))
-    .catch((err) => errorWindow(err))
-
-    //Client currency USD
-    } else if (clientCurСhoice === 'USD' && bankCurСhoice === 'USD') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        clientInput.value = bankInput.value;
-    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'RUB') {
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=USD')
-    .then(res => res.json())
-    .then(data => bankToClientUSD(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'EUR') {
-    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=USD')
-    .then(res => res.json())
-    .then(data => bankToClientUSD(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'USD' && bankCurСhoice === 'GBP') {
-    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=USD')
-    .then(res => res.json())
-    .then(data => bankToClientUSD(data))
-    .catch((err) => errorWindow(err))
-
-    //Client currency EUR
-    } else if (clientCurСhoice === 'EUR' && bankCurСhoice === 'EUR') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        clientInput.value = bankInput.value;
-    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'RUB') {
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=EUR')
-    .then(res => res.json())
-    .then(data => bankToClientEUR(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'USD') {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR')
-    .then(res => res.json())
-    .then(data => bankToClientEUR(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'EUR' && bankCurСhoice === 'GBP') {
-    fetch('https://api.exchangerate.host/latest?base=GBP&symbols=EUR')
-    .then(res => res.json())
-    .then(data => bankToClientEUR(data))
-    .catch((err) => errorWindow(err))
-
-    //Client currency GBP
-    } else if (clientCurСhoice === 'GBP' && bankCurСhoice === 'GBP') {
-        clientCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        bankCourse.innerText = `1 ${clientCurСhoice} = 1 ${clientCurСhoice}`;
-        clientInput.value = bankInput.value;
-    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'RUB') {
-    fetch('https://api.exchangerate.host/latest?base=RUB&symbols=GBP')
-    .then(res => res.json())
-    .then(data => bankToClientGBP(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'USD') {
-    fetch('https://api.exchangerate.host/latest?base=USD&symbols=GBP')
-    .then(res => res.json())
-    .then(data => bankToClientGBP(data))
-    .catch((err) => errorWindow(err))
-    } else if(clientCurСhoice === 'GBP' && bankCurСhoice === 'EUR') {
-    fetch('https://api.exchangerate.host/latest?base=EUR&symbols=GBP')
-    .then(res => res.json())
-    .then(data => bankToClientGBP(data))
-    .catch((err) => errorWindow(err))
+        return
     }
+    fetch(`https://api.exchangerate.host/latest?base=${clientCurСhoice}&symbols=${bankCurСhoice}`)
+    .then(res => res.json())
+    .then(data => {
+        result = data.rates[bankCurСhoice];
+        bankToClient(result);
+    })
+    .catch((err) => errorWindow(err))
 }
-function bankToClientRUB(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.RUB).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.RUB).toFixed(2)} ${clientCurСhoice}`;
-    clientInput.value = (bankInput.value*data.rates.RUB).toFixed(2);
-    const result = +clientInput.value;
-}
-function bankToClientUSD(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.USD).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.USD).toFixed(2)} ${clientCurСhoice}`;
-    clientInput.value = (bankInput.value*data.rates.USD).toFixed(2);
-    const result = +clientInput.value;
-}
-function bankToClientEUR(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.EUR).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.EUR).toFixed(2)} ${clientCurСhoice}`;
-    clientInput.value = (bankInput.value*data.rates.EUR).toFixed(2);
-    const result = +clientInput.value;
-}
-function bankToClientGBP(data) {
-    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / data.rates.GBP).toFixed(2)} ${bankCurСhoice}`;
-    bankCourse.innerText = `1 ${bankCurСhoice} = ${(data.rates.GBP).toFixed(2)} ${clientCurСhoice}`;
-    clientInput.value = (bankInput.value*data.rates.GBP).toFixed(2);
-    const result = +clientInput.value;
+function bankToClient(result) {
+    clientCourse.innerText = `1 ${clientCurСhoice} = ${(1 / result).toFixed(2)} ${bankCurСhoice}`;
+    bankCourse.innerText = `1 ${bankCurСhoice} = ${result.toFixed(2)} ${clientCurСhoice}`;
+    clientInput.value = (bankInput.value / result).toFixed(2);
+    const res = +clientInput.value;
 }
 
-function errorWindow () {
+function errorWindow (err) {
     modalWindow.classList.add('modal_active');
     modalWindowClose.onclick = function () {
         modalWindow.classList.remove('modal_active');
