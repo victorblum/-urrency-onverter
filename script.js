@@ -1,8 +1,3 @@
-//Конвертация запятой/менять type text
-//Смена валют
-//Функция в функции
-
-//Стрелки нужны?
 //Footer
 //Подсвечивать изменение курса валют
 
@@ -134,8 +129,6 @@ function bankToClient(result) {
 
 function errorWindow (err) {
     modalWindow.classList.add('modal_active');
-    modalWindowClose.onclick = function () {
-        modalWindow.classList.remove('modal_active');
-    };
+    modalWindowClose.onclick = () => modalWindow.classList.remove('modal_active');
     console.log(err);
 }
